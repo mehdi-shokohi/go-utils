@@ -3,7 +3,7 @@ package userHandler
 import (
 	"context"
 	"errors"
-	"os"
+	
 
 	models "github.com/mehdi-shokohi/go-utils/config"
 
@@ -11,9 +11,9 @@ import (
 )
 
 func UsersIdValidations(c context.Context, header models.IJWTHeader) error {
-	cacheAdapter := redisHelper.GetRedis(os.Getenv("KEYDBADDRESS"), "")
+	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, "")
 	res := cacheAdapter.GetConnection().Get(c, models.UserBannedRedisPrefix+header.GetUserId())
-	if res.Val() != "" {
+	if res.Val() == "" {
 		return errors.New("you are banned  access to system")
 	}
 	return nil

@@ -20,7 +20,7 @@ func SessionExpireValidation(header models.IJWTHeader) error {
 func SessionIdValidations(c context.Context, header models.IJWTHeader) error {
 	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, "")
 	res := cacheAdapter.GetConnection().Get(c, models.SessionRedisPrefix+header.GetSessionId())
-	if res.Val() != "" {
+	if res.Val() == "" {
 		return errors.New("invalid session")
 	}
 	return nil
