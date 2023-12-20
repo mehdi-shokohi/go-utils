@@ -19,9 +19,15 @@ func SessionExpireValidation(header models.IJWTHeader) error {
 
 func SessionIdValidations(c context.Context, header models.IJWTHeader) error {
 	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, "")
-	res := cacheAdapter.GetConnection().Get(c, models.SessionRedisPrefix+header.GetSessionId())
-	if res.Val() == "" {
-		return errors.New("invalid session")
+	res := cacheAdapter.GetConnection().HGet(c, models.SessionRedisPrefix+header.GetSessionId(),header.GetUserId())
+	if res.Val() == "1" {
+		return nil
 	}
-	return nil
+	if res.Val() == "" {
+		// get ensure , previous function have done validate of expiration time.
+		cacheAdapter.GetConnection().HSet(c,models.SessionRedisPrefix+header.GetSessionId(),header.GetUserId(),1)
+
+		return SessionIdValidations(c,header)
+	}
+	return errors.New("invalid session")
 }

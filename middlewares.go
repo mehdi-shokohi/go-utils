@@ -19,10 +19,10 @@ func Run(c context.Context, header models.IJWTHeader) error {
 	if err != nil {
 		return err
 	}
-	err = userHandler.UsersIdValidations(c, header)
-	if err != nil {
-		return err
-	}
+	// err = userHandler.UsersIdValidations(c, header)
+	// if err != nil {
+	// 	return err
+	// }
 	return nil
 }
 
