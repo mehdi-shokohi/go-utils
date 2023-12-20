@@ -26,7 +26,7 @@ func SessionIdValidations(c context.Context, header models.IJWTHeader) error {
 	if res.Val() == "" {
 		// get ensure , previous function have done validate of expiration time.
 		cacheAdapter.GetConnection().HSet(c,models.SessionRedisPrefix+header.GetSessionId(),header.GetUserId(),1)
-
+		cacheAdapter.GetConnection().ExpireAt(c,models.SessionRedisPrefix+header.GetSessionId(),time.Unix(header.GetExpireTime()+10,0))
 		return SessionIdValidations(c,header)
 	}
 	return errors.New("invalid session")
