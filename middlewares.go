@@ -28,7 +28,7 @@ func Run(c context.Context, header models.IJWTHeader) error {
 
 func RunFiber[T models.IJWTHeader]() func(*fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		userHeader := getUserHeader[T](c)
+		userHeader := GetUserHeader[T](c)
 		err := Run(c.Context(), userHeader)
 		if err == nil {
 			c.Next()
@@ -42,7 +42,7 @@ func RunFiber[T models.IJWTHeader]() func(*fiber.Ctx) error {
 
 func RunFiberUserActive[T models.IJWTHeader]() func(*fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		userHeader := getUserHeader[T](c)
+		userHeader := GetUserHeader[T](c)
 		err := userHandler.UserCheckActive(c.Context(), (userHeader).GetStatus())
 		if err == nil {
 			c.Next()
@@ -53,7 +53,7 @@ func RunFiberUserActive[T models.IJWTHeader]() func(*fiber.Ctx) error {
 	}
 }
 
-func getUserHeader[T any](c *fiber.Ctx) T {
+func GetUserHeader[T any](c *fiber.Ctx) T {
 
 	if us, ok := c.Locals(models.GetUtilsConf().UserHeaderFiberContext).(T); ok {
 		return us
