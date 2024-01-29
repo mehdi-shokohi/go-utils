@@ -48,6 +48,7 @@ func GetRedis(address,pass string,db int) *Redis {
 		redisConnection = new(Redis)
 		redisConnection.Address = address
 		redisConnection.Password = pass
+		redisConnection.DB = db
 	}
 	return redisConnection
 }
