@@ -11,6 +11,8 @@ type UtilsConfig struct {
 	UserHeaderFiberContext string
 	RedisURI               string
 	MongoURI               string
+	RedisPassword string
+	RedisDb int
 
 	ConfigDb func(key string) interface{}
 }
@@ -43,6 +45,7 @@ func InitUtils(uc UtilsConfig) {
 	if config.RedisURI == "" {
 		config.RedisURI = os.Getenv("KEYDB_ADDRESS")
 	}
+
 }
 
 func GetUtilsConf() *UtilsConfig {

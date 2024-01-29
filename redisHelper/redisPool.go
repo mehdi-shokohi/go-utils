@@ -15,6 +15,7 @@ type Redis struct {
 	redisPool chan *redis.Client
 	Address string
 	Password string
+	DB int
 }
 
 // GetRedis
@@ -26,7 +27,7 @@ func (pool *Redis) GetConnection() *redis.Client {
 		client := redis.NewClient(&redis.Options{
 			Addr:     pool.Address,
 			Password: pool.Password, // no password set
-			DB:       0,                       // use default DB
+			DB:       pool.DB,                       // use default DB
 		})
 		pool.redisPool <- client
 	}
@@ -41,7 +42,7 @@ func (pool *Redis) GetConnection() *redis.Client {
 }
 
 // GetRedis ...
-func GetRedis(address,pass string) *Redis {
+func GetRedis(address,pass string,db int) *Redis {
 	if redisConnection == nil {
 		fmt.Println("Redis RDB ....")
 		redisConnection = new(Redis)

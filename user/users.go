@@ -11,7 +11,7 @@ import (
 )
 
 func UsersIdValidations(c context.Context, header models.IJWTHeader) error {
-	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, "")
+	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, models.GetUtilsConf().RedisPassword,0)
 	res := cacheAdapter.GetConnection().Get(c, models.UserBannedRedisPrefix+header.GetUserId())
 	if res.Val() == "" {
 		return errors.New("you are banned  access to system")

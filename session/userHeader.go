@@ -18,7 +18,7 @@ func SessionExpireValidation(header models.IJWTHeader) error {
 }
 
 func SessionIdValidations(c context.Context, header models.IJWTHeader) error {
-	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, "")
+	cacheAdapter := redisHelper.GetRedis(models.GetUtilsConf().RedisURI, models.GetUtilsConf().RedisPassword,0)
 	res := cacheAdapter.GetConnection().HGet(c, models.SessionRedisPrefix+header.GetSessionId(),header.GetUserId())
 	if res.Val() == "1" {
 		return nil
