@@ -71,7 +71,7 @@ func (pool *Redis) initialize() {
 			Password: pool.Password, // no password set
 
 
-			DB:       0,                       // use default DB
+			DB:       pool.DB,                       // use default DB
 			PoolSize: 2,
 		})
 		pool.redisPool <- client
