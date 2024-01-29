@@ -6,9 +6,7 @@ import (
 	"testing"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/mehdi-shokohi/mongoHelper/config"
 
-	utilsConfig "github.com/mehdi-shokohi/go-utils/config"
 	"github.com/mehdi-shokohi/go-utils/edsign"
 	_ "github.com/mehdi-shokohi/go-utils/edsign"
 )
@@ -17,10 +15,10 @@ func TestED(t *testing.T) {
 	os.Setenv("KEYDB_ADDRESS", "localhost:6040")
 	os.Setenv("MONGO_ADDRESS", "mongodb://localhost:27018/inflowenger?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false")
 	os.Setenv("MONGODB_NAME", "inflowenger")
-	config.SetConfig(config.Config{
-		MongoAddress: utilsConfig.GetUtilsConf().MongoURI,
-		MongoDbName:  os.Getenv("MONGODB_NAME"),
-	}) // once run
+	// config.SetConfig(config.Config{
+	// 	MongoAddress: utilsConfig.GetUtilsConf().MongoURI,
+	// 	MongoDbName:  os.Getenv("MONGODB_NAME"),
+	// }) // once run
 	signed, err := JwtEdSign(jwt.MapClaims{
 		"sess_id3": 111, "sess_id7": 111, "sess_id8": 111, "username": "3233333", "username4": 222,
 	})

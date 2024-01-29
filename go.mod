@@ -11,7 +11,6 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/golang-jwt/jwt/v5 v5.0.0-rc.2
-	github.com/mehdi-shokohi/mongoHelper v0.0.0-20221020224820-52965f690987
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	go.mongodb.org/mongo-driver v1.11.4
 	golang.org/x/crypto v0.9.0
