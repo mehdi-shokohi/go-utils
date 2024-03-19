@@ -24,7 +24,8 @@ func JwtEdVerify() func(c *fiber.Ctx) error {
 		reqToken := c.Get(fiber.HeaderAuthorization)
 		token, err := GetJwtToken(reqToken)
 		if err != nil {
-			return err
+			return fiber.ErrUnauthorized
+
 		}
 		c.Locals(utilsConfig.GetUtilsConf().JWTUserContext, token)
 		return c.Next()
@@ -37,7 +38,7 @@ func JwtEdVerifyInline(cin *fiber.Ctx) error {
 		reqToken := c.Get(fiber.HeaderAuthorization)
 		token, err := GetJwtToken(reqToken)
 		if err != nil {
-			return err
+			return fiber.ErrUnauthorized
 		}
 		c.Locals(utilsConfig.GetUtilsConf().JWTUserContext, token)
 		return c.Next()
