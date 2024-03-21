@@ -11,6 +11,9 @@ import (
 func SaveKey(context context.Context, key string, value interface{}, expire time.Duration) *redis.StatusCmd {
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.StatusCmd{}
+	}
 	defer rdb.Release(redisDB)
 
 	return redisDB.Set(context, key, value, expire)
@@ -20,6 +23,9 @@ func SaveKeyLifeTime(context context.Context, key string, value interface{}) *re
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.StatusCmd{}
+	}
 	defer rdb.Release(redisDB)
 
 	return redisDB.Set(context, key, value, 0)
@@ -29,6 +35,9 @@ func SaveOnTable(context context.Context, key string, value ...interface{}) *red
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.IntCmd{}
+	}
 	defer rdb.Release(redisDB)
 
 	return redisDB.HSet(context, key, value)
@@ -39,6 +48,9 @@ func GetFromTable(context context.Context, key string, field string) *redis.Stri
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.StringCmd{}
+	}
 	defer rdb.Release(redisDB)
 
 	return redisDB.HGet(context, key, field)
@@ -48,6 +60,9 @@ func GetValue(context context.Context, key string) *redis.StringCmd {
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.StringCmd{}
+	}
 	defer rdb.Release(redisDB)
 
 	return redisDB.Get(context, key)
@@ -57,6 +72,9 @@ func GetTTL(context context.Context, key string) *redis.DurationCmd {
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.DurationCmd{}
+	}
 	defer rdb.Release(redisDB)
 
 	return redisDB.TTL(context, key)
@@ -66,6 +84,9 @@ func GetAll(context context.Context, key string) *redis.StringStringMapCmd {
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.StringStringMapCmd{}
+	}
 	defer rdb.Release(redisDB)
 	return redisDB.HGetAll(context, key)
 }
@@ -74,6 +95,9 @@ func DeleteKeys(ctx context.Context, key ...string) *redis.IntCmd {
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.IntCmd{}
+	}
 	defer rdb.Release(redisDB)
 	return redisDB.Del(ctx, key...)
 }
@@ -81,6 +105,9 @@ func CheckExists(ctx context.Context, key ...string) bool {
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return false
+	}
 	defer rdb.Release(redisDB)
 	ex, err := redisDB.Exists(ctx, key...).Result()
 	if err != nil {
@@ -95,6 +122,9 @@ func DeleteFromTable(ctx context.Context, key string, field ...string) *redis.In
 	rdb := GetRedis(utilsConfig.GetUtilsConf().RedisURI, utilsConfig.GetUtilsConf().RedisPassword,utilsConfig.GetUtilsConf().RedisDb)
 
 	redisDB := rdb.GetConnection()
+	if redisDB == nil{
+		return &redis.IntCmd{}
+	}
 	defer rdb.Release(redisDB)
 	return redisDB.HDel(ctx, key, field...)
 }

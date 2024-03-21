@@ -34,7 +34,7 @@ func (pool *Redis) GetConnection() *redis.Client {
 	con := <-pool.redisPool
 	_, err := con.Ping(pool.ctx).Result()
 	if err != nil {
-		panic(err)
+		return nil
 	}
 
 	return con

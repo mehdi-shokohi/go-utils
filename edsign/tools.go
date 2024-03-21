@@ -14,7 +14,10 @@ import (
 )
 
 func GetConfigFromDb(key string) (string, error) {
+	if config.GetUtilsConf().ConfigDb==nil{
+		return "", errors.New(fmt.Sprintf("%s key not found", key))
 
+	}
 	cfg := config.GetUtilsConf().ConfigDb(key)
 	if cfgVal, ok := cfg.(string); ok {
 		println(fmt.Sprintf("Loaded %s key from DB", key))
